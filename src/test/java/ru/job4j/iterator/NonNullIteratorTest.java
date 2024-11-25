@@ -32,7 +32,6 @@ class NonNullIteratorTest {
     @Test
     void sequentialHasNextInvocationDoesntAffectRetrievalOrder() {
         assertThat(iterator.hasNext()).isTrue();
-        assertThat(iterator.hasNext()).isTrue();
         assertThat(iterator.next()).isEqualTo(2);
         assertThat(iterator.next()).isEqualTo(-4);
         assertThat(iterator.next()).isEqualTo(6);
@@ -67,7 +66,6 @@ class NonNullIteratorTest {
     @Test
     void allNumbersAreNull() {
         iterator = new NonNullIterator(new Integer[]{null, null, null, null});
-        assertThat(iterator.hasNext()).isFalse();
         assertThat(iterator.hasNext()).isFalse();
     }
 }
