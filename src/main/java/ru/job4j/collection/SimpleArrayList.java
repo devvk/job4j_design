@@ -20,7 +20,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     @Override
     public void add(T value) {
         if (size == container.length) {
-            container = (T[]) grow();
+            grow();
         }
         container[size++] = value;
         modCount++;
@@ -28,12 +28,10 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     /**
      * Увеличивает размер списка.
-     *
-     * @return новый массив.
      */
-    private Object[] grow() {
+    private void grow() {
         int newCapacity = container.length > 0 ? container.length * 2 : 1;
-        return Arrays.copyOf(container, newCapacity);
+        container = Arrays.copyOf(container, newCapacity);
     }
 
     /**
@@ -105,23 +103,18 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
             @Override
             public boolean hasNext() {
-                checkModCount();
+                if (modCount != expectedModCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return index < size;
             }
 
             @Override
             public T next() {
-                checkModCount();
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 return container[index++];
-            }
-
-            private void checkModCount() {
-                if (modCount != expectedModCount) {
-                    throw new ConcurrentModificationException();
-                }
             }
         };
     }
