@@ -2,25 +2,25 @@ package ru.job4j.collection;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class SimpleLinkedList<E> implements SimpleLinked<E> {
-    private Node<E> head;
+public class ForwardLinked<T> implements Iterable<T> {
     private int size;
     private int modCount;
+    private Node<T> head;
 
     /**
      * Добавляет элемент в конец списка.
      *
      * @param value элемент, который нужно добавить.
      */
-    @Override
-    public void add(E value) {
-        Node<E> newNode = new Node<>(value, null);
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value, null);
         if (head == null) {
             head = newNode;
         } else {
-            Node<E> current = head;
+            Node<T> current = head;
             while (current.next != null) {
                 current = current.next;
             }
@@ -36,21 +36,36 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
      * @param index индекс элемента, который нужно получить.
      * @return элемент, находящийся по указанному индексу.
      */
-    @Override
-    public E get(int index) {
+    public T get(int index) {
         Objects.checkIndex(index, size);
-        Node<E> current = head;
+        Node<T> current = head;
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
         return current.item;
     }
 
+    /**
+     * Удаляет первый элемент.
+     *
+     * @return удаленный элемент.
+     */
+    public T deleteFirst() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        Node<T> deleted = head;
+        head = deleted.next;
+        size++;
+        modCount++;
+        return deleted.item;
+    }
+
     @Override
-    public Iterator<E> iterator() {
+    public Iterator<T> iterator() {
         return new Iterator<>() {
-            private Node<E> current = head;
             private final int expectedModCount = modCount;
+            private Node<T> current = head;
 
             @Override
             public boolean hasNext() {
@@ -61,23 +76,23 @@ public class SimpleLinkedList<E> implements SimpleLinked<E> {
             }
 
             @Override
-            public E next() {
+            public T next() {
                 if (!hasNext()) {
                     throw new IndexOutOfBoundsException();
                 }
-                E item = current.item;
+                T item = current.item;
                 current = current.next;
                 return item;
             }
         };
     }
 
-    private static class Node<E> {
-        private final E item;
-        private Node<E> next;
+    private static class Node<T> {
+        private final T item;
+        private Node<T> next;
 
-        Node(E element, Node<E> next) {
-            this.item = element;
+        public Node(T value, Node<T> next) {
+            this.item = value;
             this.next = next;
         }
     }
