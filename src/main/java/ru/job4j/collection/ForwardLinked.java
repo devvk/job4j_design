@@ -56,9 +56,21 @@ public class ForwardLinked<T> implements Iterable<T> {
         }
         Node<T> deleted = head;
         head = deleted.next;
-        size++;
+        T item = deleted.item;
+        deleted.next = null;
+        deleted.item = null;
+        size--;
         modCount++;
-        return deleted.item;
+        return item;
+    }
+
+    /**
+     * Возвращает размер списка.
+     *
+     * @return размер списка.
+     */
+    public int size() {
+        return size;
     }
 
     @Override
@@ -88,7 +100,7 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     private static class Node<T> {
-        private final T item;
+        private T item;
         private Node<T> next;
 
         public Node(T value, Node<T> next) {

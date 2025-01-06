@@ -57,6 +57,12 @@ class ForwardLinkedTest {
     }
 
     @Test
+    void whenDeleteFirstCheckSize() {
+        list.deleteFirst();
+        assertThat(list.size()).isEqualTo(1);
+    }
+
+    @Test
     void whenAddAndDeleteFirstThenOk() {
         assertThat(list).containsExactly(1, 2);
         list.add(3);
@@ -65,6 +71,7 @@ class ForwardLinkedTest {
         assertThat(list).containsExactly(2, 3);
         assertThat(list.deleteFirst()).isEqualTo(2);
         assertThat(list).containsExactly(3);
+        assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
