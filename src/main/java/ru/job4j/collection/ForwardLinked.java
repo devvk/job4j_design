@@ -31,6 +31,24 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     /**
+     * Добавляет первый элемент.
+     *
+     * @param value элемент, который нужно добавить.
+     */
+    public void addFirst(T value) {
+        Node<T> newNode = new Node<>(value, null);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node<T> second = head;
+            head = newNode;
+            head.next = second;
+        }
+        size++;
+        modCount++;
+    }
+
+    /**
      * Возвращает элемент по индексу.
      *
      * @param index индекс элемента, который нужно получить.
