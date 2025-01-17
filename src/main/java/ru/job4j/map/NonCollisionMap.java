@@ -53,7 +53,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         int index = getIndex(key);
         if (table[index] != null) {
             MapEntry<K, V> entry = table[index];
-            if (Objects.hashCode(key) == Objects.hashCode(entry.key) && Objects.equals(key, entry.key)) {
+            if (keysEqual(key, entry.key)) {
                 result = entry.value;
             }
         }
@@ -72,7 +72,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         int index = getIndex(key);
         if (table[index] != null) {
             MapEntry<K, V> entry = table[index];
-            if (Objects.hashCode(key) == Objects.hashCode(entry.key) && Objects.equals(key, entry.key)) {
+            if (keysEqual(key, entry.key)) {
                 table[index] = null;
                 count--;
                 modCount++;
@@ -80,6 +80,17 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
             }
         }
         return result;
+    }
+
+    /**
+     * Проверяет два ключа на равенство.
+     *
+     * @param key1 Первый ключ.
+     * @param key2 Второй ключ.
+     * @return {@code true}, если ключи равны, иначе {@code false}.
+     */
+    private boolean keysEqual(K key1, K key2) {
+        return Objects.hashCode(key1) == Objects.hashCode(key2) && Objects.equals(key1, key2);
     }
 
     /**
