@@ -3,6 +3,7 @@ package ru.job4j.io;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -20,7 +21,7 @@ public class Config {
      * Загружает пары ключ-значение в Map values.
      */
     public void load() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(this.path))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(this.path, StandardCharsets.UTF_8))) {
             reader.lines().forEach(line -> {
                 line = line.trim();
                 if (line.isEmpty() || line.startsWith("#")) {
@@ -56,7 +57,7 @@ public class Config {
     @Override
     public String toString() {
         StringJoiner output = new StringJoiner(System.lineSeparator());
-        try (BufferedReader reader = new BufferedReader(new FileReader(this.path))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(this.path, StandardCharsets.UTF_8))) {
             reader.lines().forEach(output::add);
         } catch (IOException e) {
             throw new RuntimeException("Ошибка при чтении файла: " + path, e);
