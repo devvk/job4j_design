@@ -24,7 +24,6 @@ class AnalysisTest {
         File target = tempDir.resolve("target.txt").toFile();
         Analysis analysis = new Analysis();
         analysis.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
-        StringBuilder result = new StringBuilder();
         try (BufferedReader input = new BufferedReader(new FileReader(target))) {
             assertThat(input.readLine()).isEqualTo("10:58:01;10:59:01;");
             assertThat(input.readLine()).isEqualTo("11:01:02;11:02:02;");
