@@ -18,8 +18,7 @@ public class Analysis {
                 if (isStatusCodeError(statusCode) && start == null) {
                     start = time;
                 } else if (!isStatusCodeError(statusCode) && start != null) {
-                    writer.write(start + ";" + time + ";");
-                    writer.newLine();
+                    writer.append(start).append(";").append(time).append(";").append(System.lineSeparator());
                     start = null;
                 }
             }
