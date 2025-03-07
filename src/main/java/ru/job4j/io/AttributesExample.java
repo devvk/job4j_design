@@ -19,5 +19,6 @@ public class AttributesExample {
         System.out.println("Размер файла: " + attributes.size());
         System.out.println("Время последнего доступа: " + attributes.lastAccessTime());
         System.out.println("Время последнего изменения: " + attributes.lastModifiedTime());
+        Files.deleteIfExists(file);
     }
 }
