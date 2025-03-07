@@ -26,6 +26,9 @@ public class SearchFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
+        if (predicate.test(directory)) {
+            paths.add(directory);
+        }
         return CONTINUE;
     }
 
@@ -39,6 +42,7 @@ public class SearchFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException exception) {
+        System.err.format("Visit failed for: %s: %s%n", file, exception.getMessage());
         return CONTINUE;
     }
 
