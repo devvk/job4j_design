@@ -31,8 +31,8 @@ public class Search {
      * @throws IllegalArgumentException if the arguments are invalid
      */
     private static void validateArgs(String[] args) {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Two parameters are required to run the program!");
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Parameters are required to run the program!");
         }
         Path dir = Path.of(args[0]);
         if (!Files.exists(dir)) {
