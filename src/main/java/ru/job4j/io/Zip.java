@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -38,8 +37,7 @@ public class Zip {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error packing files: " + e.getMessage());
-            System.exit(1);
+            throw new RuntimeException("Error packing files: " + e.getMessage(), e);
         }
     }
 
@@ -82,10 +80,8 @@ public class Zip {
                     path -> !path.getFileName().toString().endsWith(arguments.get("e")));
             packFiles(sources, Path.of(arguments.get("o")));
             System.out.println("Archive created successfully: " + arguments.get("o"));
-        } catch (FileAlreadyExistsException e) {
-            System.err.println("FileAlreadyExistsException: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println("Error occurred during file search: " + e.getMessage());
+            throw new RuntimeException("Error occurred while creating the archive: " + e.getMessage(), e);
         }
     }
 
