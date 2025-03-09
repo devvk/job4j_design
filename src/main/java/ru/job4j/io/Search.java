@@ -16,8 +16,7 @@ public class Search {
             Path startDir = Path.of(args[0]);
             String extension = args[1];
 
-            List<Path> foundFiles = search(startDir,
-                    path -> path.getFileName() != null && path.getFileName().toString().endsWith(extension));
+            List<Path> foundFiles = search(startDir, path -> path.getFileName().toString().endsWith(extension));
             foundFiles.forEach(System.out::println);
         } catch (IOException e) {
             System.err.println("Error occurred during file search: " + e.getMessage());

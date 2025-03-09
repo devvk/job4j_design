@@ -1,8 +1,7 @@
 package ru.job4j.io;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -27,18 +26,17 @@ public class Zip {
      *                используется как корень для вычисления относительных путей.
      * @param target  путь к создаваемому ZIP-архиву.
      */
-    public void packFiles(List<Path> sources, Path target, Path root) {
-        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target.toString())))) {
+    public void packFiles(List<Path> sources, File target) {
+        try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(target))) {
             for (Path source : sources) {
-                String relativePath = root.relativize(source).toString().replace("\\", "/");
-                zip.putNextEntry(new ZipEntry(relativePath + (Files.isDirectory(source) ? "/" : "")));
-                if (!Files.isDirectory(source)) {
-                    Files.copy(source, zip);
+                zip.putNextEntry(new ZipEntry(source.toString()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source.toFile()))) {
+                    zip.write(out.readAllBytes());
                 }
-                zip.closeEntry();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error packing files ", e);
+            System.err.println("Error packing files: " + e.getMessage());
+            System.exit(1);
         }
     }
 
@@ -77,11 +75,12 @@ public class Zip {
         ArgsName arguments = ArgsName.of(args);
         validateArguments(arguments);
         try {
-            List<Path> foundFiles = Search.search(Path.of(arguments.get("d")),
-                    path -> path.getFileName() != null
-                            && !path.getFileName().toString().endsWith(arguments.get("e")));
-            packFiles(foundFiles, Path.of(arguments.get("o")), Path.of(arguments.get("d")));
+            List<Path> sources = Search.search(Path.of(arguments.get("d")),
+                    path -> !path.getFileName().toString().endsWith(arguments.get("e")));
+            packFiles(sources, Path.of(arguments.get("o")).toFile());
             System.out.println("Archive created successfully: " + arguments.get("o"));
+        } catch (FileAlreadyExistsException e) {
+            System.err.println("FileAlreadyExistsException: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("Error occurred during file search: " + e.getMessage());
         }

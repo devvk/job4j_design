@@ -26,9 +26,6 @@ public class SearchFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
-        if (predicate.test(directory)) {
-            paths.add(directory);
-        }
         return CONTINUE;
     }
 
