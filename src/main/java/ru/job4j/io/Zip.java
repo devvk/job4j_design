@@ -1,6 +1,9 @@
 package ru.job4j.io;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,8 +29,8 @@ public class Zip {
      *                используется как корень для вычисления относительных путей.
      * @param target  путь к создаваемому ZIP-архиву.
      */
-    public void packFiles(List<Path> sources, File target) {
-        try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(target))) {
+    public void packFiles(List<Path> sources, Path target) {
+        try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(target.toString()))) {
             for (Path source : sources) {
                 zip.putNextEntry(new ZipEntry(source.toString()));
                 try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source.toFile()))) {
@@ -77,7 +80,7 @@ public class Zip {
         try {
             List<Path> sources = Search.search(Path.of(arguments.get("d")),
                     path -> !path.getFileName().toString().endsWith(arguments.get("e")));
-            packFiles(sources, Path.of(arguments.get("o")).toFile());
+            packFiles(sources, Path.of(arguments.get("o")));
             System.out.println("Archive created successfully: " + arguments.get("o"));
         } catch (FileAlreadyExistsException e) {
             System.err.println("FileAlreadyExistsException: " + e.getMessage());
