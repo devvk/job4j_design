@@ -15,14 +15,21 @@ public class EchoServer {
                 try (BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                      OutputStream output = socket.getOutputStream()) {
                     output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+
                     String requestLine = input.readLine();
                     if (requestLine != null && requestLine.startsWith("GET")) {
-                        System.out.println(requestLine);
-                        String[] params = requestLine.split(" ");
-                        if (params.length > 1) {
-                            String[] query = params[1].split("=");
-                            if ("Bye".equals(query[1])) {
-                                server.close();
+                        System.out.println("Request: " + requestLine);
+                        String[] parts = requestLine.split(" ");
+                        if (parts.length > 1) {
+                            String query = parts[1];
+                            if (query.contains("?")) {
+                                String[] params = query.substring(query.indexOf("?") + 1).split("&");
+                                for (String param : params) {
+                                    String[] keyValue = param.split("=");
+                                    if (keyValue.length == 2 && "msg".equals(keyValue[0]) && "Bye".equals(keyValue[1])) {
+                                        server.close();
+                                    }
+                                }
                             }
                         }
                     }
