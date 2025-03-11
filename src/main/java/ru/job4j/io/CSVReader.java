@@ -3,6 +3,7 @@ package ru.job4j.io;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -19,17 +20,18 @@ public class CSVReader {
      * @param argsName параметры командной строки.
      */
     public static void handle(ArgsName argsName) throws IOException {
+        String delimiter = argsName.get(DELIMITER);
         List<String> result = new ArrayList<>();
         List<String> filters = List.of(argsName.get(FILTER).split(","));
 
         try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(argsName.get(PATH))))) {
-            String[] headers = scanner.nextLine().split(argsName.get(DELIMITER));
-            result.add(String.join(argsName.get(DELIMITER), filters));
+            String[] headers = scanner.nextLine().split(delimiter);
+            result.add(String.join(delimiter, filters));
             Map<String, Integer> headerIndexMap = createIndexMap(headers);
 
             while (scanner.hasNextLine()) {
-                String[] row = scanner.nextLine().split(argsName.get(DELIMITER));
-                result.add(filterRow(row, filters, headerIndexMap, argsName.get(DELIMITER)));
+                String[] row = scanner.nextLine().split(delimiter);
+                result.add(filterRow(row, filters, headerIndexMap, delimiter));
             }
         } catch (IOException e) {
             throw new RuntimeException("Ошибка при чтении CSV файла.", e);
@@ -66,14 +68,11 @@ public class CSVReader {
      * @param data   список строк для записи.
      */
     private static void writeOutput(String output, List<String> data) {
-        if ("stdout".equals(output)) {
-            data.forEach(System.out::println);
-        } else {
-            try {
-                Files.write(Path.of(output), data);
-            } catch (IOException e) {
-                throw new RuntimeException("Ошибка при записи в файл: " + output, e);
-            }
+        try (PrintWriter writer = "stdout".equals(output)
+                ? new PrintWriter(System.out) : new PrintWriter(Files.newBufferedWriter(Path.of(output)))) {
+            data.forEach(writer::println);
+        } catch (IOException e) {
+            throw new RuntimeException("Ошибка при записи в файл: " + output, e);
         }
     }
 
@@ -100,14 +99,16 @@ public class CSVReader {
      * @throws IllegalArgumentException если аргумент невалидный.
      */
     private static void validateArgs(ArgsName args) {
-        if (!Files.exists(Path.of(args.get(PATH)))) {
-            throw new IllegalArgumentException(String.format("File '%s' does not exist.", args.get(PATH)));
+        String path = args.get(PATH);
+        String out = args.get(OUT);
+        if (!Files.exists(Path.of(path))) {
+            throw new IllegalArgumentException(String.format("File '%s' does not exist.", path));
         }
         if (!Set.of(",", ";").contains(args.get(DELIMITER))) {
             throw new IllegalArgumentException("Delimiter must be ',' or ';'.");
         }
-        if (!"stdout".equals(args.get(OUT)) && !Files.exists(Path.of(args.get(OUT)).getParent())) {
-            throw new IllegalArgumentException("Invalid output path: " + args.get(OUT));
+        if (!"stdout".equals(out) && !Files.exists(Path.of(out).getParent())) {
+            throw new IllegalArgumentException("Invalid output path: " + out);
         }
         if (args.get(FILTER).isBlank()) {
             throw new IllegalArgumentException("Filter parameter cannot be empty.");
