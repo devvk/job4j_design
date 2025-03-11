@@ -6,40 +6,86 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EchoServer {
-    public static void main(String[] args) {
-        try (ServerSocket server = new ServerSocket(9000)) {
-            while (!server.isClosed()) {
-                Socket socket = server.accept();
-                try (BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                     OutputStream output = socket.getOutputStream()) {
-                    output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+    private static final int SERVER_PORT = 9000;
 
-                    String requestLine = input.readLine();
-                    if (requestLine != null && requestLine.startsWith("GET")) {
-                        System.out.println("Request: " + requestLine);
-                        String[] parts = requestLine.split(" ");
-                        if (parts.length > 1) {
-                            String query = parts[1];
-                            if (query.contains("?")) {
-                                String[] params = query.substring(query.indexOf("?") + 1).split("&");
-                                for (String param : params) {
-                                    String[] keyValue = param.split("=");
-                                    if (keyValue.length == 2 && "msg".equals(keyValue[0]) && "Bye".equals(keyValue[1])) {
-                                        server.close();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    output.flush();
-                } catch (IOException e) {
-                    System.err.println("Ошибка обработки соединения: " + e.getMessage());
-                }
+    public static void main(String[] args) {
+        new EchoServer().startServer();
+    }
+
+    public void startServer() {
+        try (ServerSocket server = new ServerSocket(SERVER_PORT)) {
+            System.out.printf("Start server on port %s: [OK]\n", SERVER_PORT);
+            while (!server.isClosed()) {
+                handleClient(server);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка запуска сервера!", e);
+            throw new RuntimeException(String.format("Start server on port %s: [FAILURE]\n", SERVER_PORT), e);
         }
     }
+
+    private void handleClient(ServerSocket server) {
+        try (Socket socket = server.accept();
+             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             OutputStream output = socket.getOutputStream()
+        ) {
+            String request = input.readLine();
+            System.out.println("Request: " + request);
+
+            if (request != null && request.startsWith("GET")) {
+                processRequest(request, output, server);
+            }
+            output.flush();
+        } catch (IOException e) {
+            System.err.println("Connection error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Process HTTP-request.
+     *
+     * @param request request line.
+     * @param output  output.
+     * @param server  server.
+     * @throws IOException exception.
+     */
+    private void processRequest(String request, OutputStream output, ServerSocket server) throws IOException {
+        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+        Map<String, String> params = extractRequestParams(request);
+
+        if (params.containsKey("msg") && params.get("msg").equalsIgnoreCase("Bye")) {
+            System.out.printf("Stop server on port %s: [OK]\n", SERVER_PORT);
+            server.close();
+        }
+    }
+
+    /**
+     * Extract parameters from request.
+     *
+     * @param request request.
+     * @return map with parameters.
+     */
+    private Map<String, String> extractRequestParams(String request) {
+        Map<String, String> result = new HashMap<>();
+        String[] parts = request.split(" ");
+        if (parts.length > 1) {
+            String query = parts[1];
+            if (query.contains("?")) {
+                String[] params = query.substring(query.indexOf("?") + 1).split("&");
+                for (String param : params) {
+                    String[] keyValue = param.split("=");
+                    if (keyValue.length == 2) {
+                        result.put(keyValue[0], keyValue[1]);
+                    } else {
+                        System.err.println("Incorrect parameter: " + param);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
 }
