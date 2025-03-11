@@ -53,13 +53,23 @@ public class EchoServer {
      * @throws IOException exception.
      */
     private void processRequest(String request, OutputStream output, ServerSocket server) throws IOException {
-        output.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
         Map<String, String> params = extractRequestParams(request);
 
-        if (params.containsKey("msg") && params.get("msg").equalsIgnoreCase("Bye")) {
+        if (params.containsKey("msg") && params.get("msg").equalsIgnoreCase("hello")) {
+            output.write(getResponse("Hello, dear friend."));
+        } else if (params.containsKey("msg") && params.get("msg").equalsIgnoreCase("exit")) {
+            output.write(getResponse("Stop server."));
             System.out.printf("Stop server on port %s: [OK]\n", SERVER_PORT);
             server.close();
+        } else if (params.containsKey("msg") && params.get("msg").equalsIgnoreCase("what")) {
+            output.write(getResponse("What?"));
+        } else {
+            output.write(getResponse("What"));
         }
+    }
+
+    private byte[] getResponse(String msg) {
+        return String.format("HTTP/1.1 200 OK\r\n\r\n %s", msg).getBytes();
     }
 
     /**
