@@ -19,11 +19,11 @@ public class Log4jExample {
         long l = 10000L;
         float f = 3.14F;
         double d = 99.12;
-        boolean isTrue = true;
+        boolean flag = true;
         char c = 'A';
         LOG.info("byte: {}, short: {}, int: {}, long: {}", b, s, i, l);
         LOG.info("float: {}, double: {}", f, d);
-        LOG.info("boolean: {}", isTrue);
+        LOG.info("boolean: {}", flag);
         LOG.info("char: {}", c);
     }
 }
