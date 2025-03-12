@@ -1,5 +1,8 @@
 package ru.job4j.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EchoServer {
+    private static final Logger LOG = LoggerFactory.getLogger(EchoServer.class);
     private static final int SERVER_PORT = 9000;
 
     public static void main(String[] args) {
@@ -18,12 +22,12 @@ public class EchoServer {
 
     public void startServer() {
         try (ServerSocket server = new ServerSocket(SERVER_PORT)) {
-            System.out.printf("Start server on port %s: [OK]\n", SERVER_PORT);
+            LOG.info("Start server on port {}: [OK]", SERVER_PORT);
             while (!server.isClosed()) {
                 handleClient(server);
             }
         } catch (IOException e) {
-            throw new RuntimeException(String.format("Start server on port %s: [FAILURE]\n", SERVER_PORT), e);
+            LOG.error("Start server on port {}: [FAILURE]", SERVER_PORT, e);
         }
     }
 
@@ -33,14 +37,14 @@ public class EchoServer {
              OutputStream output = socket.getOutputStream()
         ) {
             String request = input.readLine();
-            System.out.println("Request: " + request);
+            LOG.info("Request: {}", request);
 
             if (request != null && request.startsWith("GET")) {
                 processRequest(request, output, server);
             }
             output.flush();
         } catch (IOException e) {
-            System.err.println("Connection error: " + e.getMessage());
+            LOG.error("Connection error!", e);
         }
     }
 
@@ -59,7 +63,7 @@ public class EchoServer {
             output.write(getResponse("Hello, dear friend."));
         } else if (params.containsKey("msg") && params.get("msg").equalsIgnoreCase("exit")) {
             output.write(getResponse("Stop server."));
-            System.out.printf("Stop server on port %s: [OK]\n", SERVER_PORT);
+            LOG.info("Stop server on port {}: [OK]", SERVER_PORT);
             server.close();
         } else if (params.containsKey("msg") && params.get("msg").equalsIgnoreCase("what")) {
             output.write(getResponse("What?"));
@@ -90,7 +94,7 @@ public class EchoServer {
                     if (keyValue.length == 2) {
                         result.put(keyValue[0], keyValue[1]);
                     } else {
-                        System.err.println("Incorrect parameter: " + param);
+                        LOG.error("Incorrect parameter: {}", param);
                     }
                 }
             }
