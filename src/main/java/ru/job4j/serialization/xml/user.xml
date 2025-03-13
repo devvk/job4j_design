@@ -1,0 +1,10 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+
+<user sex="false" age="30">
+    <id>1</id>
+    <login>user1</login>
+    <statuses>
+        <status>Worker</status>
+        <status>Married</status>
+    </statuses>
+</user>
