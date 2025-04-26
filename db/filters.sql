@@ -1,13 +1,13 @@
-CREATE TABLE product_type(
-    type_id SERIAL PRIMARY KEY, 
-    name VARCHAR(255) UNIQUE
+CREATE TABLE product_type (
+    type_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE product(
-    product_id SERIAL PRIMARY KEY, 
-    name VARCHAR(255), 
-    type_id INT REFERENCES product_type(type_id), 
-    expired_date DATE, 
+    product_id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    type_id INT REFERENCES product_type(type_id),
+    expired_date DATE,
     price DECIMAL(8, 2)
 );
 
