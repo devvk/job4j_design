@@ -3,7 +3,7 @@ CREATE TABLE product_type (
     name VARCHAR(255) UNIQUE
 );
 
-CREATE TABLE product(
+CREATE TABLE product (
     product_id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     type_id INT REFERENCES product_type(type_id),
