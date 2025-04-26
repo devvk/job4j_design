@@ -1,11 +1,11 @@
 CREATE TABLE product_type (
     type_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) UNIQUE
+    "name" VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE product (
     product_id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
+    "name" VARCHAR(255),
     type_id INT REFERENCES product_type(type_id),
     expired_date DATE,
     price DECIMAL(8, 2)
