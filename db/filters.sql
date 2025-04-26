@@ -1,6 +1,6 @@
 CREATE TABLE product_type (
     type_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) UNIQUE NOT NULL
+    name VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE product(
