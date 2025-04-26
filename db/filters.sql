@@ -15,6 +15,7 @@ INSERT INTO product_type (name) VALUES('СЫР');
 INSERT INTO product_type (name) VALUES('МОЛОКО');
 INSERT INTO product_type (name) VALUES('ФРУКТЫ');
 INSERT INTO product_type (name) VALUES('ДЕСЕРТ');
+
 INSERT INTO product (name, type_id, expired_date, price) VALUES('Сыр плавленный', 1, '2025-05-10', 200);
 INSERT INTO product (name, type_id, expired_date, price) VALUES('Сыр моцарелла', 1, '2025-05-12', 300);
 INSERT INTO product (name, type_id, expired_date, price) VALUES('Молоко1', 2, '2025-05-10', 50);
