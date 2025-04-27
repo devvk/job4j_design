@@ -1,39 +1,39 @@
-CREATE TABLE devices(
-    device_id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
+create table devices(
+    device_id serial primary key,
+    "name" varchar(255),
     price FLOAT
 );
 
-CREATE TABLE people(
-    people_id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
+create table people(
+    people_id serial primary key,
+    "name" varchar(255)
 );
 
-CREATE TABLE devices_people(
-    device_people_id SERIAL PRIMARY KEY,
-    device_id INT REFERENCES devices(device_id),
-    people_id INT REFERENCES people(people_id)
+create table devices_people(
+    device_people_id serial primary key,
+    device_id int references devices(device_id),
+    people_id int references people(people_id)
 );
 
-INSERT INTO devices (name, price) VALUES ('Nokia', 100.10), ('IPhone', 1500.50), ('Sony', 750.20);
-INSERT INTO people (name) VALUES ('Alex'), ('Max'), ('Marina');
-INSERT INTO devices_people (device_id, people_id) VALUES (1, 1), (1, 2), (1, 3), (2, 1), (2, 3), (3, 2);
+insert into devices (name, price) values ('Nokia', 100.10), ('IPhone', 1500.50), ('Sony', 750.20);
+insert into people (name) values ('Alex'), ('Max'), ('Marina');
+insert into devices_people (device_id, people_id) values (1, 1), (1, 2), (1, 3), (2, 1), (2, 3), (3, 2);
 
 -- Средняя цена всех устройств
-SELECT avg(price)
-FROM devices
+select avg(price)
+from devices
 
 -- Средняя цена всех устройств для каждого человека
-SELECT dp.people_id, avg(d.price)
-FROM devices_people AS dp
-JOIN devices AS d
-ON dp.device_id = d.device_id
-GROUP BY dp.people_id;
+select dp.people_id, avg(d.price)
+from devices_people as dp
+join devices as d
+on dp.device_id = d.device_id
+group by dp.people_id;
 
 -- Средняя цена всех устройств > 5000 для каждого человека
-SELECT dp.people_id, avg(d.price)
-FROM devices_people AS dp
-JOIN devices AS d
-ON dp.device_id = d.device_id
-GROUP BY dp.people_id
-HAVING avg(d.price) > 5000;
+select dp.people_id, avg(d.price)
+from devices_people as dp
+join devices as d
+on dp.device_id = d.device_id
+group by dp.people_id
+having avg(d.price) > 5000;

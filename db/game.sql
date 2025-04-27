@@ -1,9 +1,9 @@
-create TABLE users(
-    user_id SERIAL PRIMARY KEY,
-    email VARCHAR(255),
-    password VARCHAR(255),
-    about TEXT, 
-    created_at TIMESTAMP DEFAULT NOW()
+create table users(
+    user_id serial primary key,
+    email varchar(255),
+    password varchar(255),
+    about text,
+    created_at timestamp default now()
 );
 
 insert into users(email, password, about) values('email@mail.com', 'password', 'my about text');
