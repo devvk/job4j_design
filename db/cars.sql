@@ -1,6 +1,6 @@
 create table owners(
 	owner_id serial primary key,
-	name varchar(255)
+	"name" varchar(255)
 );
 
 create table cars(
