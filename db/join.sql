@@ -58,11 +58,11 @@ FROM employees e
 RIGHT JOIN departments d
 ON e.department_id = d.department_id;
 
-CREATE TYPE gender_type AS ENUM ('m', 'f', 'o');
+-- CREATE TYPE gender_type AS ENUM ('m', 'f', 'o');
 CREATE TABLE teens (
     teen_id SERIAL PRIMARY KEY,
     "name" VARCHAR(255),
-    gender gender_type
+    gender VARCHAR
 );
 
 INSERT INTO teens (name, gender) VALUES ('Вася', 'm');
