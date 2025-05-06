@@ -64,8 +64,16 @@ SELECT * FROM products;
     Транзакция читает набор строк, и в процессе выполнения транзакции
     другая транзакция вставляет/удаляет строки, что влияет на набор данных.
 */
-
 -- Транзакция 1
-
+BEGIN ISOLATION LEVEL REPEATABLE READ;
 
 -- Транзакция 2
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+
+-- Транзакция 1
+INSERT INTO products (name, count, price) VALUES ('product_4', 11, 64);
+DELETE FROM products WHERE price = 115;
+UPDATE products SET price = 75 WHERE name = 'product_1';
+
+-- Транзакция 2
+UPDATE products SET price = 75 WHERE name = 'product_1';
