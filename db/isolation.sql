@@ -30,50 +30,102 @@ INSERT INTO products (name, producer, count, price) VALUES ('product_3', 'produc
 
 /*
     Read Committed (чтение фиксированных данных)
-    Аномалия Non-repeatable Read (неповторяющееся чтение):
-    Транзакция читает данные, и в процессе выполнения транзакции
-    эти данные изменяются другой транзакцией.
+    Допускает аномалию: Non-repeatable Read (неповторяющееся чтение) - повторный запрос может
+    вернуть разные данные, если другая транзакция их изменила и закоммитила (UPDATE).
+    Предотвращает: Dirty Read.
 */
--- Транзакция 1
+-- Транзакция1
 BEGIN;
 SELECT * FROM products;
 
--- Транзакция 2
+-- Транзакция2
 BEGIN;
 SELECT * FROM products;
 
--- Транзакция 1
+-- Транзакция1
 INSERT INTO products (name, count, price) VALUES ('product_4', 11, 64);
 DELETE FROM products WHERE price = 115;
 UPDATE products SET price = 75 WHERE name = 'product_1';
 
--- Транзакция 2 (аномалия dirty read отсутствует)
+-- Транзакция2 (аномалия dirty read отсутствует)
 SELECT * FROM products;
 
--- Транзакция 1
+-- Транзакция1
 COMMIT;
 
--- Транзакция 2
+-- Транзакция2
 -- Видно аномалию Non-repeatable Read (неповторяющееся чтение): INSERT и DELETE
 -- Видно аномалию Phantom Read (фантомное чтение): INSERT
 SELECT * FROM products;
 
 /*
     Repeatable Read (повторяющееся чтение)
-    Аномалия Phantom Read (фантомное чтение):
-    Транзакция читает набор строк, и в процессе выполнения транзакции
-    другая транзакция вставляет/удаляет строки, что влияет на набор данных.
+    Допускает аномалию: Phantom Read (фантомное чтение) - транзакция читает набор строк,
+    а другая транзакция вставляет/удаляет строки, что влияет на набор данных (INSERT / DELETE).
+    Предотвращает: Dirty Read, Non-repeatable Read.
 */
--- Транзакция 1
+-- Транзакция1 начало:
 BEGIN ISOLATION LEVEL REPEATABLE READ;
+SELECT * FROM products;
 
--- Транзакция 2
+-- Транзакция2 начало:
 BEGIN ISOLATION LEVEL REPEATABLE READ;
+SELECT * FROM products;
 
--- Транзакция 1
+-- Транзакция1 INSERT, UPDATE и DELETE:
 INSERT INTO products (name, count, price) VALUES ('product_4', 11, 64);
 DELETE FROM products WHERE price = 115;
 UPDATE products SET price = 75 WHERE name = 'product_1';
 
--- Транзакция 2
+-- Транзакция2 UPDATE:
+-- Получаем LOCK: вторая транзакция будет ждать,
+-- пока первая транзакция не зафиксирует изменения или не откатится.
 UPDATE products SET price = 75 WHERE name = 'product_1';
+
+-- Другой вариант.
+-- Транзакция1 ROLLBACK:
+ROLLBACK;
+
+-- Транзакция2 UPDATE:
+-- В данном случае вторая транзакция выполнилась после отката первой.
+UPDATE products SET price = 75 WHERE name = 'product_1';
+
+-- В PostgreSQL для уровня изолированности Repeatable Read от Phantom Read избавились.
+-- Хотя в классическом представлении этого уровня, мы должны наблюдать этот эффект.
+
+
+/*
+    Serializable (cериализуемый)
+    Допускает только выполнение изменений данных, как будто все модифицирующие
+    данные транзакции выполняются не параллельно, а последовательно.
+*/
+INSERT INTO products (name, producer, count, price) VALUES ('product_1', 'producer_1', 3, 50);
+INSERT INTO products (name, producer, count, price) VALUES ('product_2', 'producer_2', 15, 32);
+INSERT INTO products (name, producer, count, price) VALUES ('product_3', 'producer_3', 8, 115);
+
+-- Транзакция1 начало:
+BEGIN ISOLATION LEVEL SERIALIZABLE;
+SELECT SUM(count) FROM products;
+
+-- Транзакция2 начало:
+BEGIN ISOLATION LEVEL SERIALIZABLE;
+SELECT SUM(count) FROM products;
+
+-- Транзакция1 UPDATE:
+UPDATE products SET count = 26 WHERE name = 'product_1';
+
+-- Транзакция2 UPDATE:
+UPDATE products SET count = 26 WHERE name = 'product_2';
+
+-- Транзакция2 COMMIT:
+-- изменения зафиксированы.
+COMMIT;
+
+-- Транзакция1 COMMIT:
+-- Ошибка при фиксации изменений т.к. обе транзакции изменили то, что другая транзакция может прочитать
+-- в операторе SELECT. Если бы была возможность зафиксировать оба этих изменения, то это нарушило бы
+-- поведение Serializable, поскольку если бы они выполнялись по очереди, то одна из транзакций увидела
+-- бы измененную запись, которая изменилась в другой транзакции.
+-- Для данного уровня изолированности мы получаем максимальную согласованность данных,
+-- никакие лишние данные не зафиксируются.
+COMMIT;
