@@ -15,6 +15,11 @@ RELEASE SAVEPOINT имя_точки_сохранения;
 -- Откатить все команды, которые выполнены после установления точки сохранения.
 ROLLBACK TO SAVEPOINT имя_точки_сохранения;
 
+-- Режим доступа транзакции только для чтения.
+BEGIN TRANSACTION READ ONLY;
+-- Режим доступа транзакции чтение и запись (используется по умолчанию).
+BEGIN TRANSACTION READ WRITE;
+
 CREATE TABLE products (
     id       SERIAL PRIMARY KEY,
     name     VARCHAR(50),
