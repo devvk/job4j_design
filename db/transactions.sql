@@ -17,7 +17,7 @@ ROLLBACK TO SAVEPOINT имя_точки_сохранения;
 
 -- Режим доступа транзакции только для чтения.
 BEGIN TRANSACTION READ ONLY;
--- Режим доступа транзакции чтение и запись (используется по умолчанию).
+-- Режим доступа транзакции чтение и запись (по умолчанию).
 BEGIN TRANSACTION READ WRITE;
 
 CREATE TABLE products (
