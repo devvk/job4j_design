@@ -137,18 +137,18 @@ VALUES ('Гарри Поттер и узник Азкабана', 'Джоан Р
        ('Божественная комедия', 'Данте Алигьери');
 
 -- Названия всех фильмов, которые сняты по книге:
-SELECT NAME FROM movie
+SELECT "name" FROM movie
 INTERSECT
 SELECT title FROM book;
 
 -- Все названия книг, у которых нет экранизации:
 SELECT title FROM book
 EXCEPT
-SELECT NAME FROM movie;
+SELECT "name" FROM movie;
 
 -- Все уникальные названия произведений из таблиц movie и book
-SELECT NAME FROM movie
-WHERE NAME NOT IN (SELECT title FROM book)
+SELECT "name" FROM movie
+WHERE "name" NOT IN (SELECT title FROM book)
 UNION
 SELECT title FROM book
-WHERE title NOT IN (SELECT NAME FROM movie);
+WHERE title NOT IN (SELECT "name" FROM movie);
