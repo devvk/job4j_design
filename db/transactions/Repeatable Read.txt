@@ -1,0 +1,67 @@
+-- Аномалия Non-repeatable Read (aномалия отсутствует)
+-- Транзакция 1:
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+
+SELECT * FROM accounts;
+
+-- Далее выполняем полностью Транзакцию 2
+
+SELECT * FROM accounts; -- данные в snapshot не изменились
+
+COMMIT;
+
+-- а теперь смотрим, что изменилось:
+SELECT * FROM accounts;
+
+#########################################################################
+
+-- Транзакция 2:
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+
+INSERT INTO accounts (balance) VALUES(1000);
+UPDATE accounts SET balance = balance + 100 WHERE id = 1;
+
+COMMIT;
+
+-- Возвращаемся в Транзакция 1
+
+#########################################################################
+#########################################################################
+
+-- ERROR: could not serialize access due to concurrent update
+-- ошибка сериализации из-за параллельного изменения 
+-- Транзакция 1:
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+
+UPDATE accounts SET balance = balance + 100 WHERE id = 1;
+
+-- Далее выполняем полностью Транзакцию 2
+
+COMMIT;
+
+
+#########################################################################
+
+-- Транзакция 2:
+
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+
+UPDATE accounts SET balance = balance + 100 WHERE id = 1;
+
+-- айпдейт ожидает завершения первой транзакции
+-- Возвращаемся в Транзакция 1 и завершаем ее
+-- После завершения первой транзакции появляется ошибка сериализации из-за параллельного изменения
+-- ERROR: could not serialize access due to concurrent update
+
+ROLLBACK;
+
+#########################################################################
+
+изменения других транзакций не видны, пока не сделаешь COMMIT.
+Когда Tx1 коммитит, Tx2:
+- перечитывает текущие версии строк,
+- проверяет, не нарушен ли её snapshot (тот, что был при первом SELECT или UPDATE),
+- и если нарушен — выбрасывает ошибку сериализации.

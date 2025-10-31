@@ -1,0 +1,62 @@
+-- Аномалия Lost Update (aномалия отсутствует)
+-- Транзакция 1:
+
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SHOW transaction_isolation;
+UPDATE accounts SET balance = balance + 100 WHERE id = 1;
+SELECT * FROM accounts WHERE id = 1;
+
+-- смотрим изменения в Terminal2 (их не видно)
+
+ROLLBACK;
+
+#########################################################################
+
+-- Транзакция 2:
+
+BEGIN ISOLATION LEVEL READ COMMITTED;
+UPDATE accounts SET balance = balance - 50 WHERE id = 1;
+
+-- Изменений не применяются, пока ТА1 не закоммитит или не откатит PostgreSQL ставит блокировку на строку (row-level lock).
+-- UPDATE или DELETE на ту же строку будет ждать завершения первой транзакции, и после коммита первой — повторно перечитает данные.
+
+ROLLBACK;
+
+#########################################################################
+#########################################################################
+
+-- Предыдущее обновление затирается из-за `UPDATE ... SET <константа>`
+-- Транзакция 1
+BEGIN;
+SELECT balance FROM accounts WHERE id = 1;  -- 100
+UPDATE accounts SET balance = 90 WHERE id = 1;
+
+-- Транзакция 2 (параллельно)
+BEGIN;
+SELECT balance FROM accounts WHERE id = 1;  -- тоже 100
+UPDATE accounts SET balance = 80 WHERE id = 1;
+
+-- Изменений не применяются, пока ТА1 не закоммитит или не откатит PostgreSQL ставит блокировку на строку (row-level lock).
+-- UPDATE или DELETE на ту же строку будет ждать завершения первой транзакции, и после коммита первой —  
+ НЕ ПЕРЕЧИТЫВАЕТ данные заново, т.к. значение уже константное. Поэтому предыдущее обновление затирается.
+
+#########################################################################
+#########################################################################
+
+-- Аномалия Non-repeatable Read (аномалия присутствует)
+-- Транзакция 1
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SELECT * FROM accounts;
+-- выполняем параллельно вторую транзакцию
+SELECT * FROM accounts;
+-- видим, что получен другой результат между двумя запросами.
+COMMIT;
+
+-- Транзакция 2 (параллельно)
+BEGIN ISOLATION LEVEL READ COMMITTED;
+DELETE FROM accounts WHERE id = 2;
+SELECT * FROM accounts;
+COMMIT;
+-- возвращаемся в первую транзакцию
+
+

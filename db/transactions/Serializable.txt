@@ -1,0 +1,30 @@
+-- Аномалия Serializable (aномалия присутствует)
+
+CREATE TABLE modes (
+num integer,
+mode text
+);
+
+INSERT INTO modes VALUES ( 1, 'LOW' ), ( 2, 'HIGH' );
+SELECT * FROM modes;
+#########################################################################
+-- Транзакция 1:
+
+BEGIN ISOLATION LEVEL SERIALIZABLE;
+UPDATE modes SET mode = 'HIGH' WHERE mode = 'LOW' RETURNING *;
+-- Начинаем ТА2
+COMMIT;
+#########################################################################
+
+-- Транзакция 2:
+
+BEGIN ISOLATION LEVEL SERIALIZABLE;
+UPDATE modes SET mode = 'LOW' WHERE mode = 'HIGH' RETURNING *;
+-- Возвращаемся в Транзакция 1
+COMMIT; -- ошибка
+ОШИБКА:  не удалось сериализовать доступ из-за зависимостей чтения/записи между транзакциями 
+ПОДРОБНОСТИ:  Reason code: Canceled on identification as a pivot, during commit attempt.
+ПОДСКАЗКА:  Транзакция может завершиться успешно при следующей попытке.
+
+#########################################################################
+#########################################################################

@@ -42,5 +42,6 @@ public class IsolationDemo {
         tx1.close();
         tx2.close();
     }
+
 }
 

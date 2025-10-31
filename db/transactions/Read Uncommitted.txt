@@ -1,0 +1,31 @@
+-- Аномалия Dirty Read (проверка отсутствия)
+-- Terminal1:
+
+BEGIN;
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
+SHOW transaction_isolation;
+
+UPDATE aircraft_tmp SET range = range + 100 WHERE aircraft_code = 'SU9';
+
+SELECT * FROM aircraft_tmp WHERE aircraft_code = 'SU9';
+
+-- смотрим изменения в Terminal2 (их не видно)
+
+ROLLBACK;
+
+#########################################################################
+
+-- Terminal2:
+
+BEGIN;
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
+SELECT * FROM aircrafts_tmp WHERE aircraft_code = 'SU9';
+
+-- Изменений не видно, пока ТА1 не сделает COMMIT т.к. в PG RU = RC.
+
+ROLLBACK;
+
