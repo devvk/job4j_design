@@ -15,7 +15,6 @@ public class IsolationDemo {
         Connection tx1 = DriverManager.getConnection(URL, USER, PASSWORD);
         Connection tx2 = DriverManager.getConnection(URL, USER, PASSWORD);
 
-        // Устанавливаем уровень изоляции: попробуй менять его
         tx1.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         tx2.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
