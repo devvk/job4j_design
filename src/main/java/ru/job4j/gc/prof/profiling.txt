@@ -1,0 +1,175 @@
+Размер массива: 250000
+При Heap 12m, объем Old generation 8m, а Young generation 4m (из них Survive занимает 6 часть – 0.66m. Значит Survive 0 = 0.33 / Survive 1 = 0.33, а Eden = 3.3m).
+
+1. UseSerialGC: -XX:+UseSerialGC -Xmx12m -Xms12m -Xlog:gc*,safepoint:file=gc-serial.log:time,uptime,level,tags
+Скриншот: https://prnt.sc/0xPtRZ4QjQ5m
+
+MergeSort Начало сортировки - 10:03:26.760720100
+MergeSort Конец сортировки - 10:03:26.846269200
+
+BubbleSort Начало сортировки - 10:03:45.872184700
+BubbleSort Конец сортировки - 10:05:30.926439400
+
+InsertSort Начало сортировки - 10:05:37.625206500
+InsertSort Конец сортировки - 10:05:43.095344500
+
+Время каждой сборки:
+[2025-11-14T10:02:42.096+0100][14.215s][info][gc] GC(0) Pause Young (Allocation Failure) 3M->1M(11M) 2.771ms
+[2025-11-14T10:02:42.210+0100][14.330s][info][gc] GC(1) Pause Young (Allocation Failure) 4M->2M(11M) 3.379ms
+[2025-11-14T10:02:42.297+0100][14.416s][info][gc] GC(2) Pause Young (Allocation Failure) 6M->3M(11M) 2.131ms
+[2025-11-14T10:02:42.331+0100][14.459s][info][gc] GC(3) Pause Young (Allocation Failure) 6M->4M(11M) 3.061ms
+[2025-11-14T10:02:42.368+0100][14.487s][info][gc] GC(4) Pause Young (Allocation Failure) 7M->5M(11M) 3.534ms
+[2025-11-14T10:02:44.251+0100][16.367s][info][gc] GC(5) Pause Young (Allocation Failure) 8M->6M(11M) 2.853ms
+[2025-11-14T10:02:44.351+0100][16.467s][info][gc] GC(6) Pause Young (Allocation Failure) 9M->6M(11M) 2.280ms
+[2025-11-14T10:02:44.696+0100][16.813s][info][gc] GC(7) Pause Young (Allocation Failure) 10M->10M(11M) 0.082ms
+[2025-11-14T10:02:44.713+0100][16.829s][info][gc] GC(8) Pause Full (Allocation Failure) 10M->4M(11M) 15.609ms
+[2025-11-14T10:03:02.797+0100][34.913s][info][gc] GC(9) Pause Young (Allocation Failure) 8M->5M(11M) 4.575ms
+[2025-11-14T10:03:25.052+0100][57.168s][info][gc] GC(10) Pause Young (Allocation Failure) 8M->5M(11M) 1.188ms
+[2025-11-14T10:03:26.766+0100][58.883s][info][gc] GC(11) Pause Young (Allocation Failure) 9M->7M(11M) 1.247ms
+[2025-11-14T10:03:26.772+0100][58.889s][info][gc] GC(12) Pause Young (Allocation Failure) 10M->10M(11M) 0.093ms
+[2025-11-14T10:03:26.790+0100][58.905s][info][gc] GC(13) Pause Full (Allocation Failure) 10M->6M(11M) 16.699ms
+[2025-11-14T10:03:26.794+0100][58.910s][info][gc] GC(14) Pause Young (Allocation Failure) 9M->9M(11M) 0.079ms
+[2025-11-14T10:03:26.804+0100][58.920s][info][gc] GC(15) Pause Full (Allocation Failure) 9M->6M(11M) 10.065ms
+[2025-11-14T10:03:26.807+0100][58.923s][info][gc] GC(16) Pause Young (Allocation Failure) 9M->9M(11M) 0.068ms
+[2025-11-14T10:03:26.819+0100][58.935s][info][gc] GC(17) Pause Full (Allocation Failure) 9M->6M(11M) 11.422ms
+[2025-11-14T10:03:26.823+0100][58.939s][info][gc] GC(18) Pause Young (Allocation Failure) 9M->7M(11M) 0.387ms
+[2025-11-14T10:03:26.826+0100][58.942s][info][gc] GC(19) Pause Young (Allocation Failure) 10M->10M(11M) 0.052ms
+[2025-11-14T10:03:26.835+0100][58.952s][info][gc] GC(20) Pause Full (Allocation Failure) 10M->6M(11M) 9.534ms
+[2025-11-14T10:03:26.839+0100][58.955s][info][gc] GC(21) Pause Young (Allocation Failure) 9M->7M(11M) 0.320ms
+[2025-11-14T10:03:26.843+0100][58.959s][info][gc] GC(22) Pause Young (Allocation Failure) 10M->7M(11M) 0.357ms
+[2025-11-14T10:03:37.045+0100][69.161s][info][gc] GC(23) Pause Young (Allocation Failure) 10M->10M(11M) 0.239ms
+[2025-11-14T10:03:37.058+0100][69.174s][info][gc] GC(24) Pause Full (Allocation Failure) 10M->5M(11M) 12.970ms
+[2025-11-14T10:04:01.117+0100][93.233s][info][gc] GC(25) Pause Young (Allocation Failure) 8M->6M(11M) 0.655ms
+[2025-11-14T10:04:35.119+0100][127.234s][info][gc] GC(26) Pause Young (Allocation Failure) 9M->6M(11M) 0.645ms
+[2025-11-14T10:05:04.143+0100][156.258s][info][gc] GC(27) Pause Young (Allocation Failure) 9M->6M(11M) 0.657ms
+[2025-11-14T10:05:37.626+0100][189.741s][info][gc] GC(28) Pause Young (Allocation Failure) 9M->6M(11M) 0.787ms
+
+
+2. UseParallelGC: -XX:+UseParallelGC -Xmx12m -Xms12m -Xlog:gc*,safepoint:file=gc-parallel.log:time,uptime,level,tags
+Скриншот: https://prnt.sc/FkbWNxnkPDQd
+
+MergeSort Начало сортировки - 10:20:00.537357
+MergeSort Конец сортировки - 10:20:00.613009100
+
+BubbleSort Начало сортировки - 10:20:03.937378500
+BubbleSort Конец сортировки - 10:21:48.279127200
+
+InsertSort Начало сортировки - 10:22:04.329662300
+InsertSort Конец сортировки - 10:22:09.731220200
+
+Время каждой сборки:
+[2025-11-14T10:19:15.922+0100][0.169s][info][gc] GC(0) Pause Young (Allocation Failure) 3M->1M(11M) 2.741ms
+[2025-11-14T10:19:22.273+0100][6.519s][info][gc] GC(1) Pause Young (Allocation Failure) 4M->2M(11M) 2.350ms
+[2025-11-14T10:19:22.342+0100][6.588s][info][gc] GC(2) Pause Young (Allocation Failure) 5M->3M(11M) 1.628ms
+[2025-11-14T10:19:22.397+0100][6.643s][info][gc] GC(3) Pause Young (Allocation Failure) 6M->3M(11M) 2.418ms
+[2025-11-14T10:19:22.426+0100][6.672s][info][gc] GC(4) Pause Young (Allocation Failure) 6M->4M(11M) 2.040ms
+[2025-11-14T10:19:22.558+0100][6.804s][info][gc] GC(5) Pause Young (Allocation Failure) 7M->5M(10M) 2.414ms
+[2025-11-14T10:19:22.617+0100][6.863s][info][gc] GC(6) Pause Young (Allocation Failure) 7M->6M(11M) 1.869ms
+[2025-11-14T10:19:22.647+0100][6.893s][info][gc] GC(7) Pause Young (Allocation Failure) 8M->5M(11M) 0.999ms
+[2025-11-14T10:19:22.768+0100][7.014s][info][gc] GC(8) Pause Young (Allocation Failure) 7M->6M(11M) 1.908ms
+[2025-11-14T10:19:22.830+0100][7.076s][info][gc] GC(9) Pause Young (Allocation Failure) 8M->6M(11M) 1.528ms
+[2025-11-14T10:19:28.162+0100][12.408s][info][gc] GC(10) Pause Young (Allocation Failure) 8M->6M(11M) 1.723ms
+[2025-11-14T10:19:28.178+0100][12.425s][info][gc] GC(11) Pause Full (Ergonomics) 6M->4M(11M) 16.260ms
+[2025-11-14T10:19:44.899+0100][29.145s][info][gc] GC(12) Pause Young (Allocation Failure) 6M->4M(11M) 0.836ms
+[2025-11-14T10:19:54.945+0100][39.191s][info][gc] GC(13) Pause Young (Allocation Failure) 6M->5M(11M) 0.547ms
+[2025-11-14T10:20:00.539+0100][44.785s][info][gc] GC(14) Pause Young (Allocation Failure) 7M->6M(11M) 0.567ms
+[2025-11-14T10:20:00.543+0100][44.789s][info][gc] GC(15) Pause Young (Allocation Failure) 8M->6M(11M) 0.524ms
+[2025-11-14T10:20:00.562+0100][44.808s][info][gc] GC(16) Pause Full (Ergonomics) 6M->6M(11M) 19.217ms
+[2025-11-14T10:20:00.565+0100][44.811s][info][gc] GC(17) Pause Young (Allocation Failure) 8M->6M(11M) 0.520ms
+[2025-11-14T10:20:00.568+0100][44.814s][info][gc] GC(18) Pause Young (Allocation Failure) 8M->6M(11M) 0.373ms
+[2025-11-14T10:20:00.571+0100][44.817s][info][gc] GC(19) Pause Young (Allocation Failure) 8M->6M(11M) 0.384ms
+[2025-11-14T10:20:00.574+0100][44.820s][info][gc] GC(20) Pause Young (Allocation Failure) 8M->6M(11M) 0.369ms
+[2025-11-14T10:20:00.577+0100][44.823s][info][gc] GC(21) Pause Young (Allocation Failure) 8M->6M(11M) 0.377ms
+[2025-11-14T10:20:00.580+0100][44.826s][info][gc] GC(22) Pause Young (Allocation Failure) 8M->7M(11M) 0.417ms
+[2025-11-14T10:20:00.583+0100][44.829s][info][gc] GC(23) Pause Young (Allocation Failure) 9M->7M(11M) 0.450ms
+[2025-11-14T10:20:00.598+0100][44.843s][info][gc] GC(24) Pause Full (Ergonomics) 7M->6M(11M) 14.397ms
+[2025-11-14T10:20:00.601+0100][44.846s][info][gc] GC(25) Pause Young (Allocation Failure) 8M->6M(11M) 0.423ms
+[2025-11-14T10:20:00.603+0100][44.849s][info][gc] GC(26) Pause Young (Allocation Failure) 8M->6M(11M) 0.358ms
+[2025-11-14T10:20:00.606+0100][44.851s][info][gc] GC(27) Pause Young (Allocation Failure) 8M->6M(11M) 0.362ms
+[2025-11-14T10:20:00.608+0100][44.853s][info][gc] GC(28) Pause Young (Allocation Failure) 8M->7M(11M) 0.346ms
+[2025-11-14T10:20:00.611+0100][44.856s][info][gc] GC(29) Pause Young (Allocation Failure) 8M->7M(11M) 0.359ms
+[2025-11-14T10:20:03.938+0100][48.183s][info][gc] GC(30) Pause Young (Allocation Failure) 9M->7M(11M) 0.583ms
+[2025-11-14T10:20:14.050+0100][58.296s][info][gc] GC(31) Pause Young (Allocation Failure) 9M->8M(11M) 0.749ms
+[2025-11-14T10:20:14.061+0100][58.307s][info][gc] GC(32) Pause Full (Ergonomics) 8M->6M(11M) 10.859ms
+[2025-11-14T10:20:27.073+0100][71.318s][info][gc] GC(33) Pause Young (Allocation Failure) 8M->6M(11M) 0.651ms
+[2025-11-14T10:20:49.106+0100][93.351s][info][gc] GC(34) Pause Young (Allocation Failure) 8M->6M(11M) 0.622ms
+[2025-11-14T10:21:10.323+0100][114.568s][info][gc] GC(35) Pause Young (Allocation Failure) 8M->6M(11M) 0.423ms
+[2025-11-14T10:21:31.234+0100][135.479s][info][gc] GC(36) Pause Young (Allocation Failure) 8M->6M(11M) 0.566ms
+[2025-11-14T10:21:53.255+0100][157.500s][info][gc] GC(37) Pause Young (Allocation Failure) 8M->6M(11M) 1.655ms
+[2025-11-14T10:22:04.330+0100][168.575s][info][gc] GC(38) Pause Young (Allocation Failure) 7M->6M(11M) 0.536ms
+[2025-11-14T10:22:16.429+0100][180.674s][info][gc] GC(39) Pause Young (Allocation Failure) 8M->6M(11M) 1.444ms
+
+
+3. UseG1GC: -XX:+UseG1GC -Xmx12m -Xms12m -Xlog:gc*,safepoint:file=gc-g1.log:time,uptime,level,tags
+Скриншот: https://prnt.sc/179sL-kNxeRW
+
+MergeSort Начало сортировки - 10:25:10.642774700
+MergeSort Конец сортировки - 10:25:10.715860800
+
+BubbleSort Начало сортировки - 10:25:14.378508900
+BubbleSort Конец сортировки - 10:26:58.044642300
+
+InsertSort Начало сортировки - 10:27:02.964611600
+InsertSort Конец сортировки - 10:27:08.394115900
+
+Время каждой сборки:
+[2025-11-14T10:24:43.156+0100][9.739s][info][gc] GC(0) Pause Young (Normal) (G1 Evacuation Pause) 5M->2M(12M) 4.897ms
+[2025-11-14T10:24:43.194+0100][9.777s][info][gc] GC(1) Pause Young (Normal) (G1 Evacuation Pause) 4M->3M(12M) 2.745ms
+[2025-11-14T10:24:43.242+0100][9.826s][info][gc] GC(2) Pause Young (Normal) (G1 Evacuation Pause) 5M->3M(12M) 1.428ms
+[2025-11-14T10:24:43.309+0100][9.892s][info][gc] GC(3) Pause Young (Normal) (G1 Evacuation Pause) 6M->3M(12M) 2.270ms
+[2025-11-14T10:24:43.342+0100][9.926s][info][gc] GC(4) Pause Young (Normal) (G1 Evacuation Pause) 7M->4M(12M) 2.261ms
+[2025-11-14T10:24:43.514+0100][10.098s][info][gc] GC(5) Pause Young (Normal) (G1 Evacuation Pause) 7M->4M(12M) 1.338ms
+[2025-11-14T10:24:43.565+0100][10.148s][info][gc] GC(6) Pause Young (Normal) (G1 Evacuation Pause) 7M->4M(12M) 1.596ms
+[2025-11-14T10:24:43.735+0100][10.318s][info][gc] GC(7) Pause Young (Normal) (G1 Evacuation Pause) 8M->4M(12M) 2.840ms
+[2025-11-14T10:24:51.768+0100][18.352s][info][gc] GC(8) Pause Young (Normal) (G1 Evacuation Pause) 7M->5M(12M) 2.684ms
+[2025-11-14T10:25:01.980+0100][28.564s][info][gc] GC(9) Pause Young (Concurrent Start) (G1 Humongous Allocation) 6M->5M(12M) 1.275ms
+[2025-11-14T10:25:10.644+0100][37.228s][info][gc] GC(11) Pause Young (Concurrent Start) (G1 Humongous Allocation) 7M->6M(12M) 1.673ms
+[2025-11-14T10:25:10.660+0100][37.243s][info][gc] GC(13) Pause Young (Normal) (G1 Evacuation Pause) 10M->7M(12M) 1.656ms
+[2025-11-14T10:25:10.664+0100][37.248s][info][gc] GC(14) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 9M->7M(12M) 1.652ms
+[2025-11-14T10:25:10.669+0100][37.253s][info][gc] GC(15) Pause Young (Mixed) (G1 Evacuation Pause) 9M->7M(12M) 2.448ms
+[2025-11-14T10:25:10.673+0100][37.256s][info][gc] GC(16) Pause Young (Concurrent Start) (G1 Evacuation Pause) 9M->7M(12M) 1.640ms
+[2025-11-14T10:25:10.673+0100][37.256s][info][gc] GC(17) Concurrent Mark Cycle
+[2025-11-14T10:25:10.677+0100][37.260s][info][gc] GC(18) Pause Young (Normal) (G1 Evacuation Pause) 9M->7M(12M) 1.516ms
+[2025-11-14T10:25:10.680+0100][37.264s][info][gc] GC(19) Pause Young (Normal) (G1 Evacuation Pause) 9M->7M(12M) 1.506ms
+[2025-11-14T10:25:10.688+0100][37.271s][info][gc] GC(20) Pause Young (Normal) (G1 Evacuation Pause) 9M->7M(12M) 1.203ms
+[2025-11-14T10:25:10.691+0100][37.275s][info][gc] GC(21) Pause Young (Normal) (G1 Evacuation Pause) 9M->7M(12M) 1.185ms
+[2025-11-14T10:25:10.693+0100][37.277s][info][gc] GC(22) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 8M->7M(12M) 1.091ms
+[2025-11-14T10:25:10.697+0100][37.280s][info][gc] GC(23) Pause Young (Mixed) (G1 Evacuation Pause) 8M->7M(12M) 2.019ms
+[2025-11-14T10:25:10.699+0100][37.283s][info][gc] GC(24) Pause Young (Concurrent Start) (G1 Evacuation Pause) 8M->7M(12M) 1.126ms
+[2025-11-14T10:25:10.701+0100][37.285s][info][gc] GC(26) Pause Young (Normal) (G1 Evacuation Pause) 8M->7M(12M) 0.937ms
+[2025-11-14T10:25:10.703+0100][37.287s][info][gc] GC(27) Pause Young (Normal) (G1 Evacuation Pause) 8M->7M(12M) 0.867ms
+[2025-11-14T10:25:10.705+0100][37.289s][info][gc] GC(28) Pause Young (Normal) (G1 Evacuation Pause) 8M->7M(12M) 0.810ms
+[2025-11-14T10:25:10.707+0100][37.291s][info][gc] GC(29) Pause Young (Normal) (G1 Evacuation Pause) 8M->7M(12M) 0.829ms
+[2025-11-14T10:25:10.709+0100][37.293s][info][gc] GC(30) Pause Young (Normal) (G1 Evacuation Pause) 8M->7M(12M) 0.840ms
+[2025-11-14T10:25:10.711+0100][37.294s][info][gc] GC(31) Pause Young (Normal) (G1 Evacuation Pause) 8M->7M(12M) 0.777ms
+[2025-11-14T10:25:10.828+0100][37.412s][info][gc] GC(32) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 9M->6M(12M) 3.519ms
+[2025-11-14T10:25:23.946+0100][50.530s][info][gc] GC(33) Pause Young (Mixed) (G1 Evacuation Pause) 9M->7M(12M) 2.630ms
+[2025-11-14T10:25:43.094+0100][69.677s][info][gc] GC(34) Pause Young (Concurrent Start) (G1 Evacuation Pause) 9M->7M(12M) 1.540ms
+[2025-11-14T10:26:03.107+0100][89.690s][info][gc] GC(36) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 9M->7M(12M) 1.360ms
+[2025-11-14T10:26:23.122+0100][109.705s][info][gc] GC(37) Pause Young (Mixed) (G1 Evacuation Pause) 9M->6M(12M) 2.181ms
+[2025-11-14T10:26:43.134+0100][129.717s][info][gc] GC(38) Pause Young (Concurrent Start) (G1 Evacuation Pause) 8M->6M(12M) 1.202ms
+[2025-11-14T10:27:02.163+0100][148.746s][info][gc] GC(40) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 8M->5M(12M) 0.991ms
+[2025-11-14T10:27:32.427+0100][179.010s][info][gc] GC(41) Pause Young (Mixed) (G1 Evacuation Pause) (Evacuation Failure) 9M->6M(12M) 8.462ms
+
+
+4. UseZGC (увеличен heap): -XX:+UseZGC -Xms64m -Xmx64m -Xlog:gc*,safepoint:file=gc-zgc.log:time,uptime,level,tags
+Скриншот: https://prnt.sc/2iCkR8ho8OA9
+
+MergeSort Начало сортировки - 10:29:24.212579300
+MergeSort Конец сортировки - 10:29:24.252125900
+
+BubbleSort Начало сортировки - 10:29:29.997873100
+BubbleSort Конец сортировки - 10:31:14.320034800
+
+InsertSort Начало сортировки - 10:31:21.862935600
+InsertSort Конец сортировки - 10:31:27.367415700
+
+Время каждой сборки:
+[2025-11-14T10:28:48.135+0100][6.479s][info][gc] GC(0) Garbage Collection (Warmup) 8M(12%)->6M(9%)
+[2025-11-14T10:28:48.347+0100][6.691s][info][gc] GC(1) Garbage Collection (Warmup) 22M(34%)->8M(12%)
+[2025-11-14T10:28:48.845+0100][7.188s][info][gc] GC(2) Garbage Collection (Warmup) 20M(31%)->10M(16%)
+[2025-11-14T10:29:12.737+0100][31.080s][info][gc] GC(3) Garbage Collection (Proactive) 18M(28%)->12M(19%)
+[2025-11-14T10:29:24.344+0100][42.687s][info][gc] GC(4) Garbage Collection (Allocation Rate) 46M(72%)->10M(16%)
+[2025-11-14T10:29:50.137+0100][68.480s][info][gc] GC(5) Garbage Collection (Proactive) 18M(28%)->12M(19%)
+[2025-11-14T10:30:36.437+0100][114.780s][info][gc] GC(6) Garbage Collection (Proactive) 20M(31%)->12M(19%)
+[2025-11-14T10:31:18.638+0100][156.980s][info][gc] GC(7) Garbage Collection (Proactive) 20M(31%)->12M(19%)
