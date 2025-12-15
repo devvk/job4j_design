@@ -24,10 +24,10 @@ public class SoftDemo {
             objects.add(new SoftReference<Object>(new Object() {
                 final String value = String.valueOf(System.currentTimeMillis());
 
-                @Override
+                /*@Override
                 protected void finalize() throws Throwable {
                     System.out.println("Object removed!");
-                }
+                }*/
             }));
         }
         System.gc();

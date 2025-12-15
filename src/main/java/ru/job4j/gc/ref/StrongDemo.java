@@ -13,10 +13,10 @@ public class StrongDemo {
         Object[] objects = new Object[100];
         for (int i = 0; i < 100; i++) {
             objects[i] = new Object() {
-                @Override
+                /*@Override
                 protected void finalize() throws Throwable {
                     System.out.println("Object removed!");
-                }
+                }*/
             };
         }
         for (int i = 0; i < 100; i++) {
@@ -31,10 +31,10 @@ public class StrongDemo {
         for (int i = 0; i < 100; i++) {
             Object object = new Object() {
                 final Object innerObject = new Object() {
-                    @Override
+                    /*@Override
                     protected void finalize() throws Throwable {
                         System.out.println("Remove inner object!");
-                    }
+                    }*/
                 };
             };
             objects[i] = object;
