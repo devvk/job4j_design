@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Disabled
 class GeneratorTest {
@@ -26,14 +26,14 @@ class GeneratorTest {
     public void whenTemplateHasKeyMissingInMapThenThrowException() {
         String input = "I am a ${name}, Who are ${subject}?";
         Map<String, String> args = Map.of("name", "Petr Arsentev");
-        assertThatThrownBy(() -> generator.produce(input, args)).isInstanceOf(IllegalArgumentException.class);
+        assertThrows(IllegalArgumentException.class, () -> generator.produce(input, args));
     }
 
     @Test
     public void whenMapHasExtraKeyNotInTemplateThenThrowException() {
         String input = "I am a ${name}";
         Map<String, String> args = Map.of("name", "Petr Arsentev", "subject", "you");
-        assertThatThrownBy(() -> generator.produce(input, args)).isInstanceOf(IllegalArgumentException.class);
+        assertThrows(IllegalArgumentException.class, () -> generator.produce(input, args));
     }
 
     private Generator generator() {
