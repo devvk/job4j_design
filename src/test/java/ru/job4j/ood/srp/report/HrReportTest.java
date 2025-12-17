@@ -3,6 +3,7 @@ package ru.job4j.ood.srp.report;
 import org.junit.jupiter.api.Test;
 import ru.job4j.ood.srp.model.Employee;
 import ru.job4j.ood.srp.store.MemoryStore;
+import ru.job4j.ood.srp.store.Store;
 
 import java.util.Calendar;
 import java.util.StringJoiner;
@@ -13,7 +14,7 @@ class HrReportTest {
 
     @Test
     public void whenGeneratedHrReportThenSortedBySalaryDesc() {
-        MemoryStore store = new MemoryStore();
+        Store store = new MemoryStore();
         Calendar now = Calendar.getInstance();
         Employee e1 = new Employee("Ivan", now, now, 150000);
         store.add(e1);
