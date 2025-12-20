@@ -7,6 +7,14 @@ import java.util.List;
 
 public abstract class AbstractStore implements Store {
 
+    protected static final int WAREHOUSE_MAX_USAGE_PERCENT = 25;
+
+    protected static final int DISCOUNT_MIN_USAGE_PERCENT = 75;
+    protected static final int DISCOUNT_PERCENT = 20;
+
+    protected static final int SHOP_MIN_USAGE_PERCENT = 25;
+    protected static final int SHOP_MAX_USAGE_PERCENT = 100;
+
     protected List<Food> products = new ArrayList<>();
 
     @Override

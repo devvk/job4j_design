@@ -15,15 +15,15 @@ public class Shop extends AbstractStore {
     @Override
     public boolean accept(Food food, LocalDate now) {
         int used = food.getUsedPercent(now);
-        if (used >= 75 && used < 100) {
+        if (used >= DISCOUNT_MIN_USAGE_PERCENT && used < SHOP_MAX_USAGE_PERCENT) {
             applyDiscount(food);
         }
-        return used >= 25 && used < 100;
+        return used >= SHOP_MIN_USAGE_PERCENT && used < SHOP_MAX_USAGE_PERCENT;
     }
 
     private void applyDiscount(Food food) {
         if (food.getDiscount() == 0) {
-            food.setDiscount(20);
+            food.setDiscount(DISCOUNT_PERCENT);
         }
     }
 }
