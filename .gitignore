@@ -5,25 +5,22 @@
 *.dll
 *.class
 
-# Ignore build directories
-target
-build/
-bin/
-out/
+# Maven
+/target/
 
-# CMake files (if not needed)
-CMakeCache.txt
-CMakeFiles/
+# IDE
+/.idea/
+*.iml
+/.vscode/
 
-# Ignore logs and temporary files
+# Build / output
+/bin/
+/out/
+
+# Logs / temp
 *.log
 *.tmp
 
-# IDE / editors
-.idea/
-.vscode/
-*.iml
-
-# System files
+# OS
 .DS_Store
 Thumbs.db
