@@ -34,6 +34,7 @@ public class PhantomDemo {
             phantoms.add(phantom);
         }
 
+        @SuppressWarnings("deprecation")
         public void utilizeResource() {
             for (ListIterator<MyPhantom> i = phantoms.listIterator(); i.hasNext();) {
                 MyPhantom current = i.next();

@@ -2,6 +2,7 @@ package ru.job4j.collection;
 
 import java.util.*;
 
+@SuppressWarnings("unchecked")
 public class SimpleArrayList<T> implements SimpleList<T> {
 
     private T[] container;
