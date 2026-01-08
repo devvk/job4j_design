@@ -69,4 +69,21 @@ class ControlQualityTest {
         assertEquals(0, shop.size());
         assertEquals(0, warehouse.size());
     }
+
+    @Test
+    void whenResortThenFoodMovesBetweenStores() {
+        Food food = new Food("Milk", now.minusDays(10), now.plusDays(30), 10, 0);
+        control.control(List.of(food), now);
+
+        assertEquals(0, warehouse.size());
+        assertEquals(1, shop.size());
+        assertEquals(0, trash.size());
+
+        control.resort(now.plusDays(40));
+
+        assertEquals(0, warehouse.size());
+        assertEquals(0, shop.size());
+        assertEquals(1, trash.size());
+    }
+
 }

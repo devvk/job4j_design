@@ -26,4 +26,9 @@ public class Shop extends AbstractStore {
             food.setDiscount(DISCOUNT_PERCENT);
         }
     }
+
+    @Override
+    public void clear() {
+        products.clear();
+    }
 }

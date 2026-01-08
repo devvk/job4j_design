@@ -16,4 +16,9 @@ public class Warehouse extends AbstractStore {
     public boolean accept(Food food, LocalDate now) {
         return food.getUsedPercent(now) < WAREHOUSE_MAX_USAGE_PERCENT;
     }
+
+    @Override
+    public void clear() {
+        products.clear();
+    }
 }

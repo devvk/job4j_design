@@ -7,6 +7,7 @@ import ru.job4j.ood.lsp.quality.store.Trash;
 import ru.job4j.ood.lsp.quality.store.Warehouse;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ import java.util.List;
  * перекладывает продукты в хранилища: Trash, Warehouse, Shop.
  */
 public class ControlQuality {
+
     private final List<Store> stores;
 
     public ControlQuality(List<Store> stores) {
@@ -30,6 +32,15 @@ public class ControlQuality {
                 }
             }
         }
+    }
+
+    public void resort(LocalDate now) {
+        List<Food> allFoods = new ArrayList<>();
+        for (Store store : stores) {
+            allFoods.addAll(store.getAll());
+            store.clear();
+        }
+        control(allFoods, now);
     }
 
     public static void main(String[] args) {
@@ -58,5 +69,7 @@ public class ControlQuality {
 
         System.out.println("WAREHOUSE: " + warehouse.size());
         warehouse.getAll().forEach(System.out::println);
+
+        quality.resort(now.plusDays(5));
     }
 }

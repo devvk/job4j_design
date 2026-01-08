@@ -14,4 +14,6 @@ public interface Store {
     int size();
 
     boolean accept(Food food, LocalDate now);
+
+    void clear();
 }

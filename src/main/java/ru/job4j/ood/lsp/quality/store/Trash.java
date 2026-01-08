@@ -16,4 +16,9 @@ public class Trash extends AbstractStore {
     public boolean accept(Food food, LocalDate now) {
         return food.isExpired(now);
     }
+
+    @Override
+    public void clear() {
+        products.clear();
+    }
 }
