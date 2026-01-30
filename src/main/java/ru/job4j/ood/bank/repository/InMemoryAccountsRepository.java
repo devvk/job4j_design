@@ -5,6 +5,7 @@ import ru.job4j.ood.bank.model.BankAccount;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class InMemoryAccountsRepository implements AccountsRepository {
 
@@ -21,7 +22,7 @@ public class InMemoryAccountsRepository implements AccountsRepository {
     }
 
     @Override
-    public BankAccount findById(String id) {
-        return accounts.get(id);
+    public Optional<BankAccount> findById(String id) {
+        return Optional.ofNullable(accounts.get(id));
     }
 }

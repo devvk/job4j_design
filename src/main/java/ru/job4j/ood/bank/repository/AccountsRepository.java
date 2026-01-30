@@ -3,6 +3,7 @@ package ru.job4j.ood.bank.repository;
 import ru.job4j.ood.bank.model.BankAccount;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface AccountsRepository {
 
@@ -10,5 +11,5 @@ public interface AccountsRepository {
 
     void register(BankAccount account);
 
-    BankAccount findById(String id);
+    Optional<BankAccount> findById(String id);
 }

@@ -3,6 +3,8 @@ package ru.job4j.ood.bank.service;
 import ru.job4j.ood.bank.model.BankAccount;
 import ru.job4j.ood.bank.repository.AccountsRepository;
 
+import java.util.Optional;
+
 public class BankService {
 
     private final AccountsRepository repository;
@@ -20,24 +22,24 @@ public class BankService {
             return false;
         }
 
-        BankAccount from = repository.findById(fromId);
-        BankAccount to = repository.findById(toId);
+        Optional<BankAccount> from = repository.findById(fromId);
+        Optional<BankAccount> to = repository.findById(toId);
 
-        if (from == null || to == null) {
+        if (from.isEmpty() || to.isEmpty()) {
             return false;
         }
 
-        double fromBalance = from.getBalance();
-        double toBalance = to.getBalance();
+        double fromBalance = from.get().getBalance();
+        double toBalance = to.get().getBalance();
 
-        double fee = from.getCommissionCalculator().calculate(amount);
+        double fee = from.get().getCommissionCalculator().calculate(amount);
         double total = amount + fee;
         if (fromBalance < total) {
             return false;
         }
 
-        from.setBalance(fromBalance - total);
-        to.setBalance(toBalance + amount);
+        from.get().setBalance(fromBalance - total);
+        to.get().setBalance(toBalance + amount);
         return true;
     }
 }
