@@ -3,11 +3,11 @@ package ru.job4j.ood.bank.io;
 import ru.job4j.ood.bank.model.BankAccount;
 import ru.job4j.ood.bank.repository.AccountsRepository;
 
-public class ConsoleAccountPrinter implements AccountsPrinter {
+public class ConsoleAccountsPrinter implements AccountsPrinter {
 
     private final AccountsRepository repository;
 
-    public ConsoleAccountPrinter(AccountsRepository repository) {
+    public ConsoleAccountsPrinter(AccountsRepository repository) {
         this.repository = repository;
     }
 

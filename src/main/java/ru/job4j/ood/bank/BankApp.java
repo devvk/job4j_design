@@ -13,7 +13,7 @@ public class BankApp {
         AccountsRepository repository = new InMemoryAccountsRepository();
         BankService bank = new BankService(repository);
 
-        AccountsPrinter printer = new ConsoleAccountPrinter(repository);
+        AccountsPrinter printer = new ConsoleAccountsPrinter(repository);
         AccountsExporter exporter = new CsvAccountsExporter(repository);
         PromotionalSender sender = new EmailPromotionalSender();
 

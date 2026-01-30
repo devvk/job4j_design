@@ -1,6 +1,6 @@
 package ru.job4j.ood.bank.model;
 
-import ru.job4j.ood.bank.calc.CommissionCalculator;
+import ru.job4j.ood.bank.calc.Calculator;
 
 public abstract class BankAccount {
 
@@ -8,12 +8,12 @@ public abstract class BankAccount {
 
     private double balance;
 
-    private final CommissionCalculator commissionCalculator;
+    private final Calculator calculator;
 
-    public BankAccount(String id, double balance, CommissionCalculator commissionCalculator) {
+    public BankAccount(String id, double balance, Calculator calculator) {
         this.id = id;
         this.balance = balance;
-        this.commissionCalculator = commissionCalculator;
+        this.calculator = calculator;
     }
 
     public String getId() {
@@ -24,8 +24,8 @@ public abstract class BankAccount {
         return balance;
     }
 
-    public CommissionCalculator getCommissionCalculator() {
-        return commissionCalculator;
+    public Calculator getCommissionCalculator() {
+        return calculator;
     }
 
     public void setBalance(double balance) {
