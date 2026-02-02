@@ -2,10 +2,7 @@ package ru.job4j.ood.bank.repository;
 
 import ru.job4j.ood.bank.model.BankAccount;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class InMemoryAccountsRepository implements AccountsRepository {
 
@@ -13,7 +10,7 @@ public class InMemoryAccountsRepository implements AccountsRepository {
 
     @Override
     public Collection<BankAccount> findAll() {
-        return accounts.values();
+        return List.copyOf(accounts.values());
     }
 
     @Override

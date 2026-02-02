@@ -1,13 +1,15 @@
 package ru.job4j.ood.bank.calc;
 
-public class CommissionCalculator implements Calculator {
-    private final double rate;
+import java.math.BigDecimal;
 
-    public CommissionCalculator(double rate) {
+public class CommissionCalculator implements Calculator {
+    private final BigDecimal rate;
+
+    public CommissionCalculator(BigDecimal rate) {
         this.rate = rate;
     }
 
-    public double calculate(double amount) {
-        return amount * rate;
+    public BigDecimal calculate(BigDecimal amount) {
+        return amount.multiply(rate);
     }
 }

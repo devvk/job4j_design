@@ -1,5 +1,7 @@
 package ru.job4j.ood.bank.calc;
 
+import java.math.BigDecimal;
+
 public interface Calculator {
-    double calculate(double amount);
+    BigDecimal calculate(BigDecimal amount);
 }
