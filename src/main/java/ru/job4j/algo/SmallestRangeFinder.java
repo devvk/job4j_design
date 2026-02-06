@@ -26,7 +26,7 @@ public class SmallestRangeFinder {
                 if (len < minLen) {
                     minLen = len;
                     result = new int[]{left, right};
-                    // Ранний выход т.к. короче быть не может вообще
+                    // Ранний выход т.к. короче быть не может
                     if (minLen == k) {
                         return result;
                     }
