@@ -28,7 +28,6 @@ public class TokenBucket {
     private void refill() {
         long now = System.nanoTime();
         long elapsedNanos = now - lastRefillTimestamp;
-
         long tokensToAdd = (elapsedNanos * refillRatePerSecond) / 1_000_000_000;
 
         if (tokensToAdd > 0) {
@@ -37,4 +36,3 @@ public class TokenBucket {
         }
     }
 }
-
