@@ -8,7 +8,7 @@ public class QuickSort {
         quickSort(array, 0, array.length - 1);
     }
 
-    public static void quickSort(int[] array, int start, int end) {
+    private static void quickSort(int[] array, int start, int end) {
         if (start >= end) {
             return;
         }
