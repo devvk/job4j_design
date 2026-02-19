@@ -10,15 +10,11 @@ public class Path {
         String[] parts = path.split("/");
 
         for (String part : parts) {
-            if (part.isEmpty() || part.equals(".")) {
-                continue;
-            }
-
             if (part.equals("..")) {
                 if (!stack.isEmpty()) {
                     stack.removeLast();
                 }
-            } else {
+            } else if (!part.isEmpty() && !part.equals(".")) {
                 stack.addLast(part);
             }
         }
