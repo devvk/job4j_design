@@ -17,6 +17,7 @@ public class QuickSort {
         quickSort(array, pivot + 1, end);
     }
 
+    // возвращает новый индекс pivot и меняет пары
     private static int partition(int[] array, int start, int end) {
         int pivot = array[start];
         int left = start + 1;
