@@ -33,7 +33,7 @@ public class MaxOverlapInterval {
                 int bestLen = maxEnd - maxStart;
                 int curLen = currentEnd - currentStart;
                 // если больше пересечений или одинаково, но меньше длина, обновляем
-                if (overlap > maxOverlap || overlap == maxOverlap && curLen < bestLen) {
+                if (overlap > maxOverlap || (overlap == maxOverlap && curLen < bestLen)) {
                     maxOverlap = overlap;
                     maxStart = currentStart;
                     maxEnd = currentEnd;
