@@ -4,6 +4,17 @@ import java.util.*;
 
 public class MaxOverlapInterval {
 
+    /**
+     * Находит отрезок, который пересекается с максимальным количеством интервалов.
+     * Алгоритм:
+     * 1. Сортируем интервалы по start.
+     * 2. Идём слева направо; в heap храним активные интервалы, наверху минимальный end.
+     * 3. Для текущего start общий отрезок пересечения активных: [start, минимальный end].
+     * 4. Обновляем лучший отрезок по максимуму overlap или при равенстве берём более короткий.
+     *
+     * @param intervals список интервалов
+     * @return [start, end] лучшего отрезка или {-1, -1}, если список пуст
+     */
     public static int[] findMaxOverlapInterval(List<Interval> intervals) {
         if (intervals.isEmpty()) {
             return new int[]{-1, -1};
@@ -15,24 +26,22 @@ public class MaxOverlapInterval {
         int maxStart = intervals.getFirst().start;
         int maxEnd = intervals.getFirst().end;
 
-        // Идём по интервалам слева направо
         for (Interval interval : intervals) {
             int currentStart = interval.start;
             // Удаляем интервалы, которые уже закончились до currentStart
             while (!activeIntervals.isEmpty() && activeIntervals.peek().end <= currentStart) {
                 activeIntervals.poll();
             }
-            // Добавляем текущий интервал как активный
             activeIntervals.add(interval);
-            // Текущее количество пересечений
             int overlap = activeIntervals.size();
             // Правый край общего пересечения - минимальный end среди активных
             int currentEnd = Objects.requireNonNull(activeIntervals.peek()).end;
+
             // [currentStart, currentEnd] должен быть ненулевой длины
             if (currentStart < currentEnd) {
                 int bestLen = maxEnd - maxStart;
                 int curLen = currentEnd - currentStart;
-                // если больше пересечений или одинаково, но меньше длина, обновляем
+                // Если больше пересечений или одинаково, но меньше длина, обновляем
                 if (overlap > maxOverlap || (overlap == maxOverlap && curLen < bestLen)) {
                     maxOverlap = overlap;
                     maxStart = currentStart;
