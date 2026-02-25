@@ -25,8 +25,8 @@ public class TreeUtils<T> {
         queue.push(root);
         while (!queue.isEmpty()) {
             Node<T> node = queue.poll();
-            count++;
             node.getChildren().forEach(queue::push);
+            count++;
         }
         return count;
     }
@@ -53,4 +53,3 @@ public class TreeUtils<T> {
         return result;
     }
 }
-
