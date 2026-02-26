@@ -45,6 +45,11 @@ public class SimpleQueue<T> implements Queue<T> {
         inputSize++;
     }
 
+    /**
+     * Проверяет, пуста ли структура.
+     *
+     * @return true, если пусто, иначе false
+     */
     @Override
     public boolean isEmpty() {
         return inputSize == 0 && outputSize == 0;
