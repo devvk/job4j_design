@@ -26,4 +26,13 @@ public class SimpleStack<T> {
     public void push(T value) {
         linked.addFirst(value);
     }
+
+    /**
+     * Проверяет, пуста ли структура.
+     *
+     * @return true, если пусто, иначе false
+     */
+    public boolean isEmpty() {
+        return linked.size() == 0;
+    }
 }
