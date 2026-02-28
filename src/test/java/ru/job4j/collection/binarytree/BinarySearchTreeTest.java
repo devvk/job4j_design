@@ -92,4 +92,20 @@ class BinarySearchTreeTest {
         }
         assertThat(tree.inPostOrder()).hasSize(7).containsExactly(1, 3, 2, 5, 7, 6, 4);
     }
+
+    @Test
+    void whenClearThenTreeBecomesEmptyAndCanBeUsedAgain() {
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        for (int element : new int[]{4, 2, 6, 3, 5, 7, 1}) {
+            tree.put(element);
+        }
+        tree.clear();
+        assertThat(tree.inSymmetricalOrder()).isEmpty();
+        assertThat(tree.inPreOrder()).isEmpty();
+        assertThat(tree.inPostOrder()).isEmpty();
+        assertThat(tree.contains(4)).isFalse();
+
+        assertThat(tree.put(10)).isTrue();
+        assertThat(tree.inSymmetricalOrder()).containsExactly(10);
+    }
 }

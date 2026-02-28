@@ -248,6 +248,29 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return list;
     }
 
+    /**
+     * Полностью очищает дерево.
+     */
+    public void clear() {
+        clear(root);
+        root = null;
+    }
+
+    /**
+     * Рекурсивно очищает поддерево, начиная с переданного узла.
+     *
+     * @param localRoot корень поддерева
+     */
+    private void clear(Node localRoot) {
+        if (localRoot != null) {
+            clear(localRoot.left);
+            clear(localRoot.right);
+            localRoot.left = null;
+            localRoot.right = null;
+            localRoot.key = null;
+        }
+    }
+
     public T minimum() {
         return Objects.nonNull(root) ? minimum(root).key : null;
     }
