@@ -28,7 +28,7 @@ public class AvlTree<T extends Comparable<T>> {
 
     public boolean insert(T value) {
         boolean result = false;
-        if (Objects.nonNull(value) && !contains(value)) {
+        if (Objects.nonNull(value)) {
             root = insert(root, value);
             result = true;
         }
@@ -41,8 +41,10 @@ public class AvlTree<T extends Comparable<T>> {
             int compare = value.compareTo(node.key);
             if (compare < 0) {
                 node.left = insert(node.left, value);
-            } else {
+            } else if (compare > 0) {
                 node.right = insert(node.right, value);
+            } else {
+                return node;
             }
             updateHeight(node);
             result = balance(node);
@@ -89,6 +91,11 @@ public class AvlTree<T extends Comparable<T>> {
         return balance(node);
     }
 
+    /**
+     * Обновляет высоту и баланс-фактор узла.
+     *
+     * @param node узел, для которого нужно обновить данные
+     */
     private void updateHeight(Node node) {
         int leftNodeHeight = Objects.isNull(node.left) ? -1 : node.left.height;
         int rightNodeHeight = Objects.isNull(node.right) ? -1 : node.right.height;
@@ -96,6 +103,12 @@ public class AvlTree<T extends Comparable<T>> {
         node.balanceFactor = rightNodeHeight - leftNodeHeight;
     }
 
+    /**
+     * Балансирует узел, если его баланс-фактор выходит за пределы допустимых значений (-1, 0, 1).
+     *
+     * @param node узел, который необходимо сбалансировать
+     * @return сбалансированный узел
+     */
     private Node balance(Node node) {
         Node result = node;
         if (node.balanceFactor < -1) {
@@ -114,16 +127,34 @@ public class AvlTree<T extends Comparable<T>> {
         return result;
     }
 
+    /**
+     * Обрабатывает случай левый-правый (LR) дисбаланса.
+     *
+     * @param node узел с дисбалансом
+     * @return новый корневой узел после балансировки
+     */
     private Node leftRightCase(Node node) {
         node.left = leftRotation(node.left);
         return rightRotation(node);
     }
 
+    /**
+     * Обрабатывает случай правый-левый (RL) дисбаланса.
+     *
+     * @param node узел с дисбалансом
+     * @return новый корневой узел после балансировки
+     */
     private Node rightLeftCase(Node node) {
         node.right = rightRotation(node.right);
         return leftRotation(node);
     }
 
+    /**
+     * Выполняет левый поворот дерева.
+     *
+     * @param node узел, на котором выполняется поворот
+     * @return новый корневой узел после поворота
+     */
     private Node leftRotation(Node node) {
         Node newParent = node.right;
         node.right = newParent.left;
@@ -133,6 +164,12 @@ public class AvlTree<T extends Comparable<T>> {
         return newParent;
     }
 
+    /**
+     * Выполняет правый поворот дерева.
+     *
+     * @param node узел, на котором выполняется поворот
+     * @return новый корневой узел после поворота
+     */
     private Node rightRotation(Node node) {
         Node newParent = node.left;
         node.left = newParent.right;
